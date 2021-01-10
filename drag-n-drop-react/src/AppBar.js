@@ -57,7 +57,7 @@ export default function MenuAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            I-BZ Admin
+            I-BZ (InsuranceBzr) Admin
           </Typography>
           {auth && (
             <div>

@@ -10,7 +10,8 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-
+toast.configure()
 function DragNDrop() {
     const classes = useStyles();
     const classesAccordion = useStylesAccordion();
@@ -49,9 +50,7 @@ function DragNDrop() {
     const { getRootProps, getInputProps } = useDropzone();
     const [config, setConfig] = useState()
     const [highlighted, setHighlighted] = useState(false);
-    
-    
-    
+      
     
     ondragenter=(e)=>{
         setHighlighted(true)
@@ -82,26 +81,51 @@ function DragNDrop() {
 
     const sendConfigData = () => {
         (
+            
             typeof config !== 'undefined'
              &&
-            axios.post("https://reqres.in/api/users", config).then((response) => {
+            axios.post("http://localhost:9090/api/configs", JSON.parse(config)).then((response) => {
+
                 console.log("Config Data Sent")
                 console.log(response)
+                toast.success("Config Data Sent")
+                
+            }).catch((error)=>{
+              if (error.response) {
+                /*
+                 * The request was made and the server responded with a
+                 * status code that falls out of the range of 2xx
+                 */
+                toast.error("The request was made and the server responded with a status code that falls out of the range of 2xx")
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                /*
+                 * The request was made but no response was received, `error.request`
+                 * is an instance of XMLHttpRequest in the browser and an instance
+                 * of http.ClientRequest in Node.js
+                 */
+                console.log(error.request);
+                toast.error("The request was made but no response was received")
+            } else {
+                // Something happened in setting up the request and triggered an Error
+                console.log('Error', error.message);
+                toast.error("Error in setting up the request")
+            }
+            console.log(error.config);
             })
         )
     }
-
+    
     useEffect(() => {
         (
-            typeof config !== 'undefined'
+            typeof config !== 'undefined'||''
              &&
-            console.log("Changes in File Detected")
-            // axios.post("https://reqres.in/api/users", config).then((response) => {
-            //     console.log("Config Data Sent")
-            //     console.log(response)
-            // })
-        )
-    }, [config])
+            toast("Changes in File Detected")
+            
+          
+    )}, [config])
 
     return (
         <s.DragDrop style={{marginTop:"90px"}}>
