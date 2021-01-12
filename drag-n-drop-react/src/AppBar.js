@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Switch from '@material-ui/core/Switch';
@@ -60,6 +61,16 @@ export default function MenuAppBar() {
       setError("Failed to log out")
     }
   };
+  const handleAnalytics=() =>
+  {
+    setAnchorEl(null);
+    history.push("/analytics")
+  }
+  const handleHome=() =>
+  {
+    
+    history.push("/")
+  }
 
   return (
     <div className={classes.root}>
@@ -72,15 +83,13 @@ export default function MenuAppBar() {
       {/* background: "gold" */}
       <AppBar position="static" style={{backgroundImage: `url(${"https://www.octaneseating.com/blog/wp-content/uploads/2018/05/Wood-header.jpg"})`}}>
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={handleHome}>
+            <HomeRoundedIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             I-BZ (InsuranceBzr) Admin
           </Typography>
-          <Typography variant="h6" className="analytics">
-            Analytics
-          </Typography>
+          
           {auth && (
             <div>
               <IconButton
@@ -90,7 +99,7 @@ export default function MenuAppBar() {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <MenuIcon />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -107,8 +116,9 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem> */}
+                <MenuItem onClick={handleAnalytics}>Analytics</MenuItem>
                 <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
               </Menu>
             </div>

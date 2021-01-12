@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
   const useStylesAccordion = makeStyles((theme) => ({
     root: {
       width: '100%',
+      //display: 'flex',  
+      //justifyContent:'center', 
+      //alignItems:'center'
+      
+
     },
     heading: {
       fontSize: theme.typography.pxToRem(15),
@@ -34,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     secondaryHeading: {
       fontSize: theme.typography.pxToRem(15),
       color: theme.palette.text.secondary,
+      
     },
   }));
 
@@ -134,17 +140,17 @@ function DragNDrop() {
                 <input {...getInputProps()}/> 
                 <p style={{marginTop:"90px"}}>Drag 'n' drop some files here, or click to select files</p>
             </s.DragContainer>
-            {/* <p>{config}</p> */}
+           
 
-
-            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+            {/* <div style={{width:"80%", display: 'flex',  justifyContent:'center', alignItems:'center'}}> */}
+            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} className={classesAccordion.root}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography className={classes.heading}>Data Sent</Typography>
-          <Typography className={classes.secondaryHeading}>   JSON Config file</Typography>
+          <Typography className={classesAccordion.heading}>Data Preview</Typography>
+          <Typography className={classesAccordion.secondaryHeading}>   JSON Config file</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -152,6 +158,7 @@ function DragNDrop() {
           </Typography>
         </AccordionDetails>
       </Accordion>
+      {/* </div> */}
 
 
 

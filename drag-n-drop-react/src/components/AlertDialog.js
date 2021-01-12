@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function AlertDialog({openState,setOpenPopup}) {
+export default function AlertDialog({openState,setOpenPopup,title,content,button}) {
 
     const handleClose = () => {
       setOpenPopup(false)
@@ -20,15 +20,15 @@ export default function AlertDialog({openState,setOpenPopup}) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Wrong Credentials"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Your Password or Email was wrong! 
+            {content}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Try Again
+            {button}
           </Button>
         </DialogActions>
       </Dialog>

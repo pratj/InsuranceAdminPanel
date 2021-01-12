@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.dark,
     },
     form: {
       width: '100%', // Fix IE 11 issue.
@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
       margin: theme.spacing(3, 0, 2),
+      backgroundColor: theme.palette.success.dark,
     },
   }));
 
@@ -87,7 +88,7 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        <AlertDialog openState={open} setOpenPopup={setOpen}/>
+        <AlertDialog openState={open} setOpenPopup={setOpen} title={"Wrong Credentials"} content={"Your Password or Email was wrong! "} button={"Try Again"}/>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <TextField
             variant="outlined"
@@ -126,12 +127,12 @@ export default function Login() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link to="/forgot-password" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/signup" variant="body2">
+              <Link to="/signup" variant="body2">
                 Don't have an account? Sign Up
               </Link>
             </Grid>
