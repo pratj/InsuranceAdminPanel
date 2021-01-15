@@ -8,7 +8,7 @@ import AppBar from './AppBar'
 function Analytics() {
     return (
         <div>
-            <AppBar></AppBar>
+            <AppBar/>
             <BarChart/>
             <div className="doughnutCharts" style={{display: 'flex', justifyContent: 'center', marginTop: "30px"}}>
                 <DoughnutChart1/>

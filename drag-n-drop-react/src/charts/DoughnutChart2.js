@@ -1,13 +1,15 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState, useEffect } from 'react'
 import { Doughnut } from 'react-chartjs-2'
 
 function DoughnutChart2() {
 
+    const [ chartData, setChartData ] = useState({})
     var backgroundColor = []
     var rgb = []
 
-    const randomColorGenerate = () => {
-        for(var i = 0; i < 4; i++){
+    const randomColorGenerate = (responseLength) => {
+        for(var i = 0; i < responseLength; i++){
             for(var j = 0; j < 3; j++){
                 rgb.push(Math.floor(Math.random() * 255))
             }
@@ -17,28 +19,46 @@ function DoughnutChart2() {
         console.log(backgroundColor)
     }
 
-    const data = {
-        labels: ["Motor Insurance", "Travel Insurance", "Health Insurance", "Term Life Insurance"],
-        datasets: [
-            {
-              label: 'Insurances Bought',
-              data: [5, 10, 15, 12],
-              backgroundColor: backgroundColor
+    const chart = () => {
+
+        let insurances = []
+        let soldInsurances = []
+
+        axios.get("http://localhost:9090/api/category/request/count").then((response) => {
+
+            randomColorGenerate(response.data.length)
+
+            for(let dataObj of response.data){
+                insurances.push(dataObj.category)
+                soldInsurances.push(dataObj.count)
             }
-          ]
+            setChartData({
+                labels: insurances,
+                datasets: [
+                    {
+                      label: 'Insurances Bought',
+                      data: soldInsurances,
+                      backgroundColor: backgroundColor
+                    }
+                  ]
+            })
+        })
     }
 
     const options = {
         title: {
           display: true,
-          text: 'Doughnut Chart'
+          text: 'Insurances Bought'
         }
       }
 
+    useEffect(() => {
+        chart()
+    }, [])
+
     return (
         <div style={{width: "40%"}}>
-            {randomColorGenerate()}
-            <Doughnut data={data} options={options}/>
+            <Doughnut data={chartData} options={options}/>
         </div>
     )
 }

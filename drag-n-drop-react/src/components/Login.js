@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useForm} from 'react-hook-form'
 import AlertDialog from './AlertDialog.js'
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +28,9 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.dark,
+      backgroundColor: "gold",
+      
+
     },
     form: {
       width: '100%', // Fix IE 11 issue.
@@ -58,6 +62,19 @@ export default function Login() {
     setOpen(false);
   };
 
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+  const [openAlert, setOpenAlert] = React.useState(false);
+
+  const handleClickOpenAlert = () => {
+    setOpen(true);
+  };
+
+  const handleCloseAlert = () => {
+    setOpen(false);
+  };
+
   async function onSubmit(data) {
     
 
@@ -66,7 +83,8 @@ export default function Login() {
       setLoading(true)
       //await login(emailRef.current.value, passwordRef.current.value)
       await login(data.emailId, data.password)
-      history.push("/")
+      handleClickOpenAlert()
+      history.push("/home")
       
     } catch {
       setError("Failed to log in")
@@ -82,14 +100,20 @@ export default function Login() {
       <Container component="main" maxWidth="xs" className="login">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        <img src="favicon.ico" style={{width:"50px",height:"50px"}}/>
+        {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
-        </Avatar>
+        </Avatar> */}
         <Typography component="h1" variant="h5">
           Login
         </Typography>
         <AlertDialog openState={open} setOpenPopup={setOpen} title={"Wrong Credentials"} content={"Your Password or Email was wrong! "} button={"Try Again"}/>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleCloseAlert} severity="error">
+          Sorry Try Again
+        </Alert>
+      </Snackbar>
           <TextField
             variant="outlined"
             margin="normal"

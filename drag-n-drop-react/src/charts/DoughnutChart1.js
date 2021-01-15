@@ -1,13 +1,15 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState, useEffect } from 'react'
 import { Doughnut } from 'react-chartjs-2'
 
 function DoughnutChart1() {
 
+    const [ chartData, setChartData ] = useState({})
     var backgroundColor = []
     var rgb = []
 
-    const randomColorGenerate = () => {
-        for(var i = 0; i < 4; i++){
+    const randomColorGenerate = (responseLength) => {
+        for(var i = 0; i < responseLength; i++){
             for(var j = 0; j < 3; j++){
                 rgb.push(Math.floor(Math.random() * 255))
             }
@@ -17,28 +19,46 @@ function DoughnutChart1() {
         console.log(backgroundColor)
     }
 
-    const data = {
-        labels: ["Tata AIG", "Bajaj Allianz", "HDFC ERGO", "HDFC Life"],
-        datasets: [
-            {
-              label: 'Partners',
-              data: [3, 3, 1, 1],
-              backgroundColor: backgroundColor
+    const chart = () => {
+
+        let partners = []
+        let partnersCount = []
+
+        axios.get("http://localhost:9090/api/partner/category/count").then((response) => {
+
+            randomColorGenerate(response.data.length)
+
+            for(let dataObj of response.data){
+                partners.push(dataObj.partner)
+                partnersCount.push(dataObj.count)
             }
-          ]
+            setChartData({
+                labels: partners,
+                datasets: [
+                    {
+                      label: 'Partners',
+                      data: partnersCount,
+                      backgroundColor: backgroundColor
+                    }
+                  ]
+            })
+        })
     }
 
     const options = {
         title: {
           display: true,
-          text: 'Doughnut Chart'
+          text: 'Partners'
         }
       }
 
+    useEffect(() => {
+        chart()
+    }, [])
+
     return (
         <div style={{width: "40%"}}>
-            {randomColorGenerate()}
-            <Doughnut data={data} options={options}/> 
+            <Doughnut data={chartData} options={options}/> 
         </div>
     )
 }

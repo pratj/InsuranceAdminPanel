@@ -15,7 +15,12 @@ import Menu from '@material-ui/core/Menu';
 import { useState } from "react"
 import { useAuth } from "./contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
+import MultilineChartIcon from '@material-ui/icons/MultilineChart';
+import ExitToAppRoundedIcon from '@material-ui/icons/ExitToApp';
+import MapRoundedIcon from '@material-ui/icons/MapRounded';
+import './AppBar.css'
 
+const productWebsiteUrl="http://localhost:3000/"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -66,10 +71,18 @@ export default function MenuAppBar() {
     setAnchorEl(null);
     history.push("/analytics")
   }
+  const handleMap=() =>
+  {
+    
+    history.push("/map")
+  }
   const handleHome=() =>
   {
     
-    history.push("/")
+    history.push("/home")
+  }
+  const openProductWebsite=() =>{
+    window.open(productWebsiteUrl, "_blank") 
   }
 
   return (
@@ -80,14 +93,20 @@ export default function MenuAppBar() {
           label={auth ? 'Logout' : 'Login'}
         /> */}
       </FormGroup>
-      {/* background: "gold" */}
-      <AppBar position="static" style={{backgroundImage: `url(${"https://www.octaneseating.com/blog/wp-content/uploads/2018/05/Wood-header.jpg"})`}}>
+      {/* background: "gold" backgroundImage: `url(${"https://www.octaneseating.com/blog/wp-content/uploads/2018/05/Wood-header.jpg"})`*/}
+      <AppBar position="static" style={{background: "gold"}}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={handleHome}>
             <HomeRoundedIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            I-BZ (InsuranceBzr) Admin
+          <Typography variant="h6" className={classes.title} style={{fontFamily: 'Nunito, sans-serif'}}>
+            I-BZ 
+          </Typography>
+          <tooltip title="Open the Website">
+          <button style={{backgroundColor:"gold",border: "none", textDecoration: "none", borderRadius:"20px",  color:"white", cursor: "pointer"}} onClick={openProductWebsite}><h4>(InsuranceBazaar) </h4></button>
+          </tooltip>
+          <Typography variant="h5" className={classes.title} style={{fontFamily: 'Nunito, sans-serif'}}>
+            {'   '}Admin
           </Typography>
           
           {auth && (
@@ -118,8 +137,9 @@ export default function MenuAppBar() {
               >
                 {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem> */}
-                <MenuItem onClick={handleAnalytics}>Analytics</MenuItem>
-                <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
+                <MenuItem onClick={handleAnalytics}><MultilineChartIcon/>Analytics</MenuItem>
+                <MenuItem onClick={handleMap}><MapRoundedIcon/>Live Map</MenuItem>
+                <MenuItem onClick={handleLogOut}><ExitToAppRoundedIcon/>Log Out</MenuItem>
               </Menu>
             </div>
           )}
