@@ -9,6 +9,7 @@ import ForgotPassword from "./components/ForgotPassword"
 import Analytics from './Analytics';
 import Map from './components/Map'
 import LeafletMap from './components/LeafletMap'
+import MapCluster from './components/MapCluster'
 function App() {
 
     return (
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/forgot-password" component={ForgotPassword} />
           {/* <PrivateRoute exact path="/map" component={LeafletMap} /> */}
           <PrivateRoute exact path="/map" component={Map} />
+          <PrivateRoute exact path="/mapcluster" component={MapCluster} />
           <PrivateRoute exact path="/map2" component={LeafletMap} />
         </Switch>
       </AuthProvider>

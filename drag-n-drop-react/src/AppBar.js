@@ -76,6 +76,11 @@ export default function MenuAppBar() {
     
     history.push("/map")
   }
+  const handleMapCluster=() =>
+  {
+    
+    history.push("/mapcluster")
+  }
   const handleHome=() =>
   {
     
@@ -139,6 +144,7 @@ export default function MenuAppBar() {
                 <MenuItem onClick={handleClose}>My account</MenuItem> */}
                 <MenuItem onClick={handleAnalytics}><MultilineChartIcon/>Analytics</MenuItem>
                 <MenuItem onClick={handleMap}><MapRoundedIcon/>Live Map</MenuItem>
+                <MenuItem onClick={handleMapCluster}><img src="connect.gif" style={{width:"30px", height:"30px"}}/> {' '}View Map Cluster</MenuItem>
                 <MenuItem onClick={handleLogOut}><ExitToAppRoundedIcon/>Log Out</MenuItem>
               </Menu>
             </div>
