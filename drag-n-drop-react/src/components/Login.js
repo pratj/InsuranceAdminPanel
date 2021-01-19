@@ -18,7 +18,6 @@ import AlertDialog from './AlertDialog.js'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
-
 const useStyles = makeStyles((theme) => ({
     paper: {
       marginTop: theme.spacing(8),
@@ -140,15 +139,17 @@ export default function Login() {
             autoComplete="current-password"
           />
           {errors.password && <span>This field is required</span>}
+          
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            color="secondary"
             className={classes.submit}
           >
             Login
           </Button>
+          
           <Grid container>
             <Grid item xs>
               <Link to="/forgot-password" variant="body2">

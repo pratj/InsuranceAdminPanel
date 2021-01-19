@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import ReactJson from 'react-json-view'
 
 
 import * as s from './DragNDrop.styles';
@@ -154,7 +154,7 @@ function DragNDrop() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-          {config}
+          {typeof config !== 'undefined' ? <ReactJson src={JSON.parse(config)}/> : <pre>No file added yet</pre>}
           </Typography>
         </AccordionDetails>
       </Accordion>

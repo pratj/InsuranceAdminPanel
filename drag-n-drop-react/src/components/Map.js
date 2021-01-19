@@ -105,11 +105,14 @@ const crimes=[
         title={
           <React.Fragment>
               <img style={{width:"30px", height:"30px", display:"inline", marginTop:"10px"}} src="favicon.ico"/>
-            <Typography style={{display:"inline"}}color="inherit">{'       '}Category</Typography>
+            <Typography style={{display:"inline"}}color="inherit">{'       '}Motor Insurance</Typography>
             {/* <em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}
             {""} */}
-            <p>Product Chosen</p>
-            <p>Time viwed</p>
+            <p>Product Chosen: CAR Insuracne</p>
+            <p>Time viwed: FORM time</p>
+            <p>User Bought: True/False</p>
+            <p>Partner Bought: TATA AIG</p>
+            <p>Time bought: PURCHASED TIME</p>
           </React.Fragment>
         }
       >

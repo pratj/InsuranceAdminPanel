@@ -10,6 +10,8 @@ import Analytics from './Analytics';
 import Map from './components/Map'
 import LeafletMap from './components/LeafletMap'
 import MapCluster from './components/MapCluster'
+import AnalyticsComponent from './AnalyticsComponent'
+
 function App() {
 
     return (
@@ -24,7 +26,10 @@ function App() {
           <Route path="/signup" component={Signup} />
           <Route exact path="/" component={Login} />
           <PrivateRoute exact path="/home" component={Dashboard} />
-          <PrivateRoute path="/analytics" exact component={Analytics}></PrivateRoute>
+          <PrivateRoute path="/analytics" exact component={AnalyticsComponent}/>
+          <PrivateRoute exact path="/analytics/barchart" exact component={Analytics.BarChart}/>
+          <PrivateRoute exact path="/analytics/doughnutchart2" exact component={Analytics.DoughnutChart2}/>
+          <PrivateRoute exact path="/analytics/doughnutchart1" exact component={Analytics.DoughnutChart1}/>
           <Route exact path="/login" component={Login} />
           <Route exact path="/forgot-password" component={ForgotPassword} />
           {/* <PrivateRoute exact path="/map" component={LeafletMap} /> */}
