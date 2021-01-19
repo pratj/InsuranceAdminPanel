@@ -24,6 +24,7 @@ const productWebsiteUrl="http://localhost:3000/"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -143,7 +144,7 @@ export default function MenuAppBar() {
                 {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem> */}
                 <MenuItem onClick={handleAnalytics}><MultilineChartIcon/>Analytics</MenuItem>
-                <MenuItem onClick={handleMap}><MapRoundedIcon/>Live Map</MenuItem>
+                <MenuItem onClick={handleMap}><img src="map.gif" style={{width:"30px", height:"25px"}}/>    <span>Live Map</span></MenuItem>
                 <MenuItem onClick={handleMapCluster}><img src="connect.gif" style={{width:"30px", height:"30px"}}/> {' '}View Map Cluster</MenuItem>
                 <MenuItem onClick={handleLogOut}><ExitToAppRoundedIcon/>Log Out</MenuItem>
               </Menu>

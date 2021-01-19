@@ -1,3 +1,4 @@
+import { Grid } from '@material-ui/core'
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Bar } from 'react-chartjs-2'
@@ -8,16 +9,19 @@ function BarChart() {
     var borderColor = []
     var backgroundColor = []
 
+  
+    var rgb=[]
     const fillColor = (responseLength) => {
-
-        for(var i = 0; i < responseLength; i++){
-            borderColor.push('rgba(255, 206, 86, 0.2)')
-            backgroundColor.push('rgba(255, 206, 86, 0.2)')
+        for(let i = 0; i < 3; i++){
+          rgb.push(Math.floor(Math.random() * 255))
         }
-
-        // borderColor = Array(4).fill('rgba(255, 206, 86, 0.2)')
-        // backgroundColor = Array(4).fill('rgba(255, 206, 86, 0.2)')
-    }
+        for(let i = 0; i < responseLength; i++){
+          borderColor.push('rgb('+rgb.join(',')+')')
+          backgroundColor.push('rgb('+rgb.join(',')+')')
+        }
+        rgb = []
+       
+      }
 
     const chart = () => {
 
@@ -69,7 +73,7 @@ function BarChart() {
     }, [])
 
     return (
-        <div style={{width: "80%", margin: 'auto'}}>
+        <div>
             <Bar data={chartData} options={options}/>
         </div>
     )

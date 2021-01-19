@@ -11,7 +11,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { Link, useHistory } from "react-router-dom"
-
+import DonutSmallIcon from '@material-ui/icons/DonutSmall';
+import InsertChartIcon from '@material-ui/icons/InsertChart';
+import MultilineChartIcon from '@material-ui/icons/MultilineChart';
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import './Drawer.css'
 const useStyles = makeStyles({
   list: {
     width: 250,
@@ -39,10 +43,20 @@ export default function AppDrawer() {
     setState({ ...state, [anchor]: open });
   };
   
+  const handleAnalytics=() =>
+  {
+    
+    history.push("/analytics")
+  }
   const handleBarChart=() =>
   {
     
     history.push("/analytics/barchart")
+  }
+  const handleBarChart2=() =>
+  {
+    
+    history.push("/analytics/barchart2")
   }
   
   const handleDoughnutChart1=() =>
@@ -64,21 +78,32 @@ export default function AppDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      
+      <ListItem button key="Analytics">
+            <ListItemIcon> <MultilineChartIcon /></ListItemIcon>
+            <ListItemText primary="View All the Stats"onClick={handleAnalytics}/>
+          </ListItem>
+        
+      <Divider />
           <ListItem button key="BarChart">
-            <ListItemIcon> <MailIcon /></ListItemIcon>
+            <ListItemIcon> <InsertChartIcon /></ListItemIcon>
             <ListItemText primary="Partners in each Category"onClick={handleBarChart}/>
           </ListItem>
         
       <Divider />
+      <ListItem button key="BarChart2">
+            <ListItemIcon> <InsertChartIcon /></ListItemIcon>
+            <ListItemText primary="Partners bought in each Category"onClick={handleBarChart2}/>
+          </ListItem>
+        
+      <Divider />
       <ListItem button key="DoughnutChart1">
-            <ListItemIcon> <MailIcon /></ListItemIcon>
+            <ListItemIcon> <DonutSmallIcon /></ListItemIcon>
             <ListItemText primary="Data on Partners"onClick={handleDoughnutChart1}/>
           </ListItem>
       
       <Divider />
       <ListItem button key="DoughnutChart2">
-            <ListItemIcon> <MailIcon /></ListItemIcon>
+            <ListItemIcon> <DonutSmallIcon /></ListItemIcon>
             <ListItemText primary="Insurances Bought"onClick={handleDoughnutChart2}/>
           </ListItem>
       
@@ -89,9 +114,9 @@ export default function AppDrawer() {
 
   return (
     <div>
-      {['left', 'right', 'top', 'bottom'].map((anchor) => (
+      {['bottom'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          <Button className="drawerbutton" style={{background: "white", color: "gray",boxShadow: "2px 2px 5px", padding:"10px", borderRadius:"5px"}} onClick={toggleDrawer(anchor, true)}><MenuOpenIcon/>Open Menu</Button>
           <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
             {list(anchor)}
           </Drawer>
