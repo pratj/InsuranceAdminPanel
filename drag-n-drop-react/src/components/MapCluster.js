@@ -1,10 +1,10 @@
 import GoogleMapReact from 'google-map-react'
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import useSwr from 'swr'
 import useSupercluster from "use-supercluster";
 import './Map.css'
 import RoomIcon from '@material-ui/icons/Room';
-import { Tooltip } from '@material-ui/core';
+import { Divider, Tooltip } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '../AppBar';
@@ -28,21 +28,27 @@ const HtmlTooltip = withStyles((theme) => ({
 
 function MapCluster() {
     const url =
-    "https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2019-10";
+    "http://localhost:9090/api/map/location";
   const { data, error } = useSwr(url, { fetcher });
   const crimes = data && !error ? data.slice(0,200) : [];
+  useEffect(()=>{
+    {clusterData()}
+  },[crimes])
   const mapRef = useRef();
 const [zoom, setZoom]=useState(10);
 const [bounds, setBounds] = useState(null)
-
+const [maxProductCount, setmaxProductCount]=useState(0);
+const [maxCategoryCount, setmaxCategoryCount] = useState(0);
+const [maxProduct, setmaxProduct] = useState(null)
+const [maxCategory, setmaxCategory] = useState(null)
 const points = crimes.map(crime => ({
     type: "Feature",
-    properties: { cluster: false, crimeId: crime.id, category: crime.category },
+    properties: { cluster: false, crimeId: crime.ViewTime, category: crime.category },
     geometry: {
       type: "Point",
       coordinates: [
-        parseFloat(crime.location.longitude),
-        parseFloat(crime.location.latitude)
+        parseFloat(crime.userLocation.coordinates.lng),
+        parseFloat(crime.userLocation.coordinates.lat)
       ]
     }
   }));
@@ -52,15 +58,36 @@ const  {clusters, supercluster} = useSupercluster({
     zoom,
     options: {radius:75, maxZoom:20}
 })
+function clusterData(){
+  const data = crimes
 
+//let [maxProductCount, maxCategoryCount, maxProduct, maxCategory, tmpObj] = [0, 0, null, null, {}];
+let tmpObj ={}
+data.forEach(({ product, category }) => {
+    tmpObj[product] = (tmpObj[product] || 0) + 1;
+    tmpObj[category] = (tmpObj[category] || 0) + 1;
+    if (tmpObj[product] > maxProductCount) {
+        setmaxProductCount (tmpObj[product]);
+        setmaxProduct (product);
+    }
+    if (tmpObj[category] > maxCategoryCount) {
+        setmaxCategoryCount ( tmpObj[category]);
+        setmaxCategory (category);
+    }
+    
+});
+
+console.log({ maxProduct, maxCategory });
+return { maxProduct, maxCategory }
+}
 
 return (
     <div style={{ height: "90.9vh", width: "100%" }}>
         <MenuAppBar/>
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_KEY }}
-        defaultCenter={{ lat: 52.6376, lng: -1.135171 }}
-        defaultZoom={10}
+        defaultCenter={{ lat: 20.59, lng: 78.96 }}
+        defaultZoom={5}
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map }) => {
           mapRef.current = map;
@@ -89,12 +116,16 @@ return (
                 lat={latitude}
                 lng={longitude}
               >
-                  <HtmlTooltip
+                  <HtmlTooltip 
         title={
           <React.Fragment>
               <DataUsageRoundedIcon/>
             <Typography style={{display:"inline"}}color="inherit">Number of Requests</Typography>
             <p>{pointCount}</p>
+            <Divider/>
+            <Typography color="textSecondary">Most Requested</Typography>
+            <Typography color="inherit"> Category:<span style={{color:"white"}}>{maxCategory}</span></Typography>
+            <Typography color="inherit"> Product:<span style={{color:"white"}}>{maxProduct}</span></Typography>
           </React.Fragment>
         }
       >

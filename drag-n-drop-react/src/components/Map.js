@@ -21,79 +21,54 @@ const HtmlTooltip = withStyles((theme) => ({
   }))(Tooltip);
 
 function Map() {
-//     const url =
-//     "https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2019-10";
-//   const { data, error } = useSwr(url, { fetcher });
-//   const crimes = data && !error ? data.slice(0,200) : [];
-const crimes=[
-    {
-      "category": "anti-social-behaviour",
-      "location_type": "Force",
-      "location": {
-        "latitude": "52.628613",
-        "street": {
-          "id": 883221,
-          "name": "On or near Highfield Street"
-        },
-        "longitude": "-1.118388"
-      },
-      "context": "",
-      "outcome_status": null,
-      "persistent_id": "",
-      "id": 78209889,
-      "location_subtype": "",
-      "month": "2019-10"
-    },
-    {
-      "category": "anti-social-behaviour",
-      "location_type": "Force",
-      "location": {
-        "latitude": "52.634693",
-        "street": {
-          "id": 883424,
-          "name": "On or near St Nicholas Circle"
-        },
-        "longitude": "-1.140799"
-      },
-      "context": "",
-      "outcome_status": null,
-      "persistent_id": "",
-      "id": 78215173,
-      "location_subtype": "",
-      "month": "2019-10"
-    },
-    {
-      "category": "anti-social-behaviour",
-      "location_type": "Force",
-      "location": {
-        "latitude": "52.631392",
-        "street": {
-          "id": 883371,
-          "name": "On or near East Street"
-        },
-        "longitude": "-1.127064"
-      },
-      "context": "",
-      "outcome_status": null,
-      "persistent_id": "",
-      "id": 78210437,
-      "location_subtype": "",
-      "month": "2019-10"
-    }]
+    const url =
+    "http://localhost:9090/api/map/location";
+  const { data, error } = useSwr(url, { fetcher });
+  const crimes = data && !error ? data.slice(0,200) : [];
+// const crimes=[
+//   {
+//       "product": "Car Insurance",
+//       "ViewTime": "Wed Jan 20 14:13:05 IST 2021",
+//       "userBought": false,
+//       "userLocation": {
+//           "loaded": true,
+//           "userAllowed": true,
+//           "coordinates": {
+//               "lng": 70.8856,
+//               "lat": 19.0748
+//           }
+//       },
+//       "category": "Motor Insurance"
+//   },
+//   {
+//       "product": "Car Insurance",
+//       "ViewTime": "Wed Jan 20 15:40:31 IST 2021",
+//       "userBought": true,
+//       "userLocation": {
+//           "loaded": true,
+//           "userAllowed": true,
+//           "coordinates": {
+//               "lng": 72.8856,
+//               "lat": 19.0748
+//           }
+//       },
+//       "category": "Motor Insurance"
+//   }
+// ]
 
     return (
         <div style={{ height: "90.9vh", width: "100%" }}>
             <AppBar/>
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_KEY}}
-        //defaultCenter={{ lat: 20.59, lng: 78.96 }}
-        defaultCenter={{ lat: 52.6376, lng: -1.135171 }}
-        defaultZoom={14}
+        defaultCenter={{ lat: 20.59, lng: 78.96 }}
+        //defaultCenter={{ lat: 52.6376, lng: -1.135171 }}
+        defaultZoom={5}
         
         
       >
         {crimes.map(crime=>(
-            <Marker key={crime.id} lat={crime.location.latitude} lng={crime.location.longitude}>
+            <Marker key={crime.ViewTime} lat={crime.userLocation.coordinates.lat} lng={crime.userLocation.coordinates.lng}>
                 {console.log(crime)}
                 {/* <button className="crime-marker">
                     <img src="favicon.ico"/>
@@ -108,15 +83,15 @@ const crimes=[
             <Typography style={{display:"inline"}}color="inherit">{'       '}Motor Insurance</Typography>
             {/* <em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}
             {""} */}
-            <p>Product Chosen: CAR Insuracne</p>
-            <p>Time viwed: FORM time</p>
-            <p>User Bought: True/False</p>
-            <p>Partner Bought: TATA AIG</p>
-            <p>Time bought: PURCHASED TIME</p>
+            <p>Product Chosen: {crime.product}</p>
+            <p>Time viwed: {crime.ViewTime}</p>
+            <p>User Bought: {crime.userBought.toString()}</p>
+            {crime.userBought===true?<p>Partner Bought: {crime.partner}</p>:
+            <p></p>}
           </React.Fragment>
         }
       >
-        <RoomIcon style={{color:"yellow"}}/>
+        {crime.userBought===true?<RoomIcon style={{color:"yellow"}}/>:<RoomIcon style={{color:"red"}}/>}
       </HtmlTooltip>
                 
             </Marker>

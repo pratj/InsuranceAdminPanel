@@ -3,6 +3,7 @@ import { Bar } from 'react-chartjs-2'
 import axios from 'axios'
 import { Grid } from '@material-ui/core'
 
+
 function BarChart2() {
 
     var chartData
@@ -90,7 +91,8 @@ function BarChart2() {
     
     return (
         <Grid container style={{display: 'flex'}}>
-          {typeof data !== undefined && data.map((data, index) => chart(data, index))}
+          {/* {typeof data !== undefined && data.map((data, index) => chart(data, index))} */}
+          {data.length!==0 ? data.map((data, index) => chart(data, index)):<span>No purchases made yet</span>}
           {/* {dummyData.map((data, index) => chart(data, index))} */}
         </Grid>
     )
